@@ -4,43 +4,49 @@
       <h1 class="mb-4 text-3xl font-bold">Pokedex</h1>
 
       <div
-        class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
       >
         <!-- Sample Pokemon Card (Replace this with actual data from the API) -->
-        <div
-          class="rounded-md bg-white p-4 shadow-md"
-          v-for="pokemon in pokemons"
+        <PokemonCard
+          v-for="pokemon in visiblePokemons"
           :key="pokemon.id"
+          :pokemon="pokemon"
         >
-          <img
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg"
-            alt="Bulbasaur"
-            class="mx-auto h-24 w-24"
-          />
-          <h2 class="mt-2 text-lg font-semibold">{{ pokemon.name }}</h2>
-          <p class="text-gray-600">{{ getTypes(pokemon.types) }}</p>
-        </div>
+        </PokemonCard>
         <!-- End of Sample Pokemon Card -->
-        <!-- You can repeat the above div to show multiple Pokemon cards -->
+      </div>
+      <!-- Load more ... -->
+      <div class="mt-10 flex justify-center" v-if="showLoadMore">
+        <button
+          @click="loadMorePokemon"
+          class="rounded-xl bg-blue-500 px-24 py-3 text-white hover:bg-blue-600"
+        >
+          Load More ...
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import PokemonCard from '~/components/PokemonCard.vue'
 export default {
+  components: { PokemonCard },
   layout: 'dashboard',
 
   data() {
     return {
       pokemons: [],
+      visiblePokemons: [],
+      limit: 15,
+      offset: 0,
     }
   },
 
   async asyncData({ $axios }) {
     // Ambil data dari API menggunakan Axios
     const response = await $axios.get(
-      process.env.POKE_API_URL + '/pokemon?limit=20'
+      process.env.POKE_API_URL + '/pokemon?limit=300'
     )
     const pokemons = response.data.results
 
@@ -48,6 +54,7 @@ export default {
     const pokemonsWithData = await Promise.all(
       pokemons.map(async (pokemon) => {
         const detailResponse = await $axios.get(pokemon.url)
+
         return detailResponse.data
       })
     )
@@ -56,10 +63,21 @@ export default {
       pokemons: pokemonsWithData,
     }
   },
-  methods: {
-    getTypes(types) {
-      return types.map((type) => type.type.name).join(' / ')
+
+  computed: {
+    showLoadMore() {
+      return this.visiblePokemons.length < this.pokemons.length
     },
+  },
+  methods: {
+    loadMorePokemon() {
+      this.offset += this.limit
+      this.visiblePokemons = this.pokemons.slice(0, this.offset + this.limit)
+    },
+  },
+  mounted() {
+    // Inisialisasi data awal yang akan ditampilkan
+    this.visiblePokemons = this.pokemons.slice(0, this.limit)
   },
 }
 </script>
