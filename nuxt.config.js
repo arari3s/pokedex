@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'pokedex-nuxt',
+    title: 'Pokedex Nuxt',
     htmlAttrs: {
       lang: 'en',
     },
@@ -32,7 +32,9 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [],
+  buildModules: [
+    '@nuxtjs/dotenv'
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -44,6 +46,10 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+  },
+
+  env: {
+    POKE_API_URL: process.env.POKE_API_URL,
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

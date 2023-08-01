@@ -20,6 +20,7 @@
     "vue-template-compiler": "^2.7.10"
   },
   "devDependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
     "autoprefixer": "^10.4.14",
     "eslint-config-prettier": "^8.5.0",
     "postcss": "^8.4.27",
