@@ -52,6 +52,16 @@ export default {
     POKE_API_URL: process.env.POKE_API_URL,
   },
 
+  // router: {
+  //   extendRoutes(routes, resolve) {
+  //     routes.push({
+  //       name: 'pokemon-id',
+  //       path: '/pokemon/:id',
+  //       component: resolve(__dirname, 'pages/pokemon/_id.vue')
+  //     });
+  //   }
+  // },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     postcss: {

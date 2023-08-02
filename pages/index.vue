@@ -1,21 +1,19 @@
 <template>
-  <div>
-    <div class="container mx-auto px-4 py-8">
-      <h1 class="mb-4 text-3xl font-bold">Pokedex</h1>
-
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="mb-6 text-3xl font-bold text-red-600">Pokédex</h1>
+    <!-- Jika showDetail bernilai false, tampilkan PokemonCard -->
+    <div v-if="!showDetail">
       <div
         class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
       >
-        <!-- Sample Pokemon Card (Replace this with actual data from the API) -->
         <PokemonCard
           v-for="pokemon in visiblePokemons"
           :key="pokemon.id"
           :pokemon="pokemon"
-        >
-        </PokemonCard>
-        <!-- End of Sample Pokemon Card -->
+          @showDetail="showPokemonDetail(pokemon)"
+        />
       </div>
-      <!-- Load more ... -->
+      <!-- Button load more ... -->
       <div class="mt-10 flex justify-center" v-if="showLoadMore">
         <button
           @click="loadMorePokemon"
@@ -23,6 +21,46 @@
         >
           Load More ...
         </button>
+      </div>
+    </div>
+
+    <!-- Jika showDetail bernilai true, tampilkan PokemonDetail di sebelah kanan -->
+    <div v-if="showDetail" class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="col-span-1">
+        <div class="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <PokemonCard
+            v-for="pokemon in visiblePokemons"
+            :key="pokemon.id"
+            :pokemon="pokemon"
+            @showDetail="showPokemonDetail(pokemon)"
+          />
+        </div>
+        <!-- Button load more ... -->
+        <div class="mt-6 flex justify-center" v-if="showLoadMore">
+          <button
+            @click="loadMorePokemon"
+            class="rounded-xl bg-blue-500 px-24 py-3 text-white hover:bg-blue-600"
+          >
+            Load More ...
+          </button>
+        </div>
+      </div>
+      <div class="col-span-1">
+        <PokemonDetail
+          :pokemon="selectedPokemon"
+          @closeDetail="closePokemonDetail"
+        />
+        <!-- </div> -->
+        <!-- Button close ... -->
+        <!-- Kode untuk menutup PokemonDetail saat diklik -->
+        <div class="mt-6 flex justify-center" v-if="showLoadMore">
+          <button
+            @click="closePokemonDetail"
+            class="rounded-xl bg-blue-500 px-24 py-3 text-white hover:bg-blue-600"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -38,8 +76,10 @@ export default {
     return {
       pokemons: [],
       visiblePokemons: [],
-      limit: 15,
+      limit: 10,
       offset: 0,
+      selectedPokemon: null, // Variable untuk menyimpan data Pokemon yang dipilih
+      showDetail: false, // Menambahkan variabel showDetail untuk menampilkan atau menyembunyikan PokemonDetail
     }
   },
 
@@ -70,6 +110,14 @@ export default {
     },
   },
   methods: {
+    showPokemonDetail(pokemon) {
+      this.selectedPokemon = pokemon // Menyimpan data Pokemon yang dipilih
+      this.showDetail = true // Menampilkan PokemonDetail saat tombol pada PokemonCard diklik
+    },
+    closePokemonDetail() {
+      this.selectedPokemon = null
+      this.showDetail = false // Menutup PokemonDetail saat tombol close di PokemonDetail diklik
+    },
     loadMorePokemon() {
       this.offset += this.limit
       this.visiblePokemons = this.pokemons.slice(0, this.offset + this.limit)
