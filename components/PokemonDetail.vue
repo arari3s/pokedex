@@ -6,7 +6,7 @@
       <img
         :src="getImageUrl(pokemon.id)"
         :alt="pokemon.name"
-        class="mx-auto h-52 w-52"
+        class="mx-auto h-28 w-28 md:h-48 md:w-48 lg:h-52 lg:w-52"
       />
       <div class="ml-4">
         <p class="mb-1 text-lg text-gray-600">
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <table class="w-full table-auto">
+    <table class="mb-4 w-full table-auto">
       <thead>
         <tr>
           <th>Height</th>
@@ -43,6 +43,26 @@
         </tr>
       </tbody>
     </table>
+
+    <h3 class="mb-2 ml-2 text-xl font-semibold">State:</h3>
+    <div class="m-2 flex flex-wrap">
+      <ul class="w-full">
+        <li v-for="stat in pokemon.stats" :key="stat.stat.name" class="mb-1">
+          <div class="mb-1 flex justify-between">
+            <span class="flex font-bold">
+              {{ formatStatName(stat.stat.name) }}
+            </span>
+            <span class="stat-base">{{ stat.base_stat }}</span>
+          </div>
+          <div class="mb-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div
+              :style="{ width: stat.base_stat / 2 + '%' }"
+              class="h-full bg-green-500"
+            ></div>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -78,6 +98,12 @@ export default {
     },
     showPokemonDetail() {
       this.$emit('showDetail', this.pokemon)
+    },
+    formatStatName(name) {
+      // Ubah format nama statistik, misalnya "hp" menjadi "HP"
+      return name
+        .replace(/-/g, ' ')
+        .replace(/\b\w/g, (firstChar) => firstChar.toUpperCase())
     },
     getTypeClass(type) {
       // Ganti dengan warna dan gaya yang sesuai dengan masing-masing tipe
