@@ -1,14 +1,19 @@
 <template>
-  <div class="rounded-md bg-white p-4 shadow-md" @click="showPokemonDetail">
+  <div
+    class="rounded-md bg-white p-4 shadow-md dark:bg-slate-500"
+    @click="showPokemonDetail"
+  >
     <img
       :src="getImageUrl(pokemon.id)"
       :alt="pokemon.name"
-      class="mx-auto h-28 w-28"
+      class="mx-auto h-32 w-32"
     />
-    <p class="text-gray-600">
+    <p class="text-slate-600 dark:text-slate-300">
       {{ formatPokemonId(pokemon.id) }}
     </p>
-    <h2 class="text-lg font-semibold">
+    <h2
+      class="text-lg font-semibold text-slate-800 dark:text-slate-100 md:text-xl"
+    >
       {{ capitalizeEachWord(pokemon.name) }}
     </h2>
     <div class="mt-2 flex">

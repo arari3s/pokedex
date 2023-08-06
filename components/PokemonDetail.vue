@@ -1,18 +1,20 @@
 <template>
   <div
-    class="fixed right-4 top-24 max-w-3xl rounded-md bg-white p-4 shadow-md md:right-12 lg:right-24"
+    class="fixed right-4 top-24 max-w-3xl rounded-lg bg-white p-4 shadow-md dark:bg-slate-500 md:right-12 lg:right-24"
   >
-    <div class="m-6 flex items-center">
+    <div class="mx-6 flex items-center">
       <img
         :src="getImageUrl(pokemon.id)"
         :alt="pokemon.name"
         class="mx-auto h-28 w-28 md:h-48 md:w-48 lg:h-52 lg:w-52"
       />
       <div class="ml-4">
-        <p class="mb-1 text-lg text-gray-600">
+        <p class="mb-1 text-lg text-slate-600 dark:text-slate-300">
           {{ formatPokemonId(pokemon.id) }}
         </p>
-        <h2 class="mb-2 text-2xl font-semibold">
+        <h2
+          class="mb-2 text-2xl font-semibold text-slate-800 dark:text-slate-100"
+        >
           {{ capitalizeEachWord(pokemon.name) }}
         </h2>
         <div class="mt-2 flex">
@@ -27,7 +29,7 @@
       </div>
     </div>
 
-    <table class="mb-4 w-full table-auto">
+    <table class="mb-4 w-full table-auto text-slate-800 dark:text-slate-100">
       <thead>
         <tr>
           <th>Height</th>
@@ -44,15 +46,21 @@
       </tbody>
     </table>
 
-    <h3 class="mb-2 ml-2 text-xl font-semibold">State:</h3>
+    <h3
+      class="mb-2 ml-2 text-xl font-semibold text-slate-800 dark:text-slate-100"
+    >
+      State:
+    </h3>
     <div class="m-2 flex flex-wrap">
       <ul class="w-full">
         <li v-for="stat in pokemon.stats" :key="stat.stat.name" class="mb-1">
           <div class="mb-1 flex justify-between">
-            <span class="flex font-bold">
+            <span class="flex font-bold text-slate-800 dark:text-slate-100">
               {{ formatStatName(stat.stat.name) }}
             </span>
-            <span class="stat-base">{{ stat.base_stat }}</span>
+            <span class="stat-base text-slate-800 dark:text-slate-100">{{
+              stat.base_stat
+            }}</span>
           </div>
           <div class="mb-2 h-2 w-full overflow-hidden rounded-full bg-gray-200">
             <div

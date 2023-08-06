@@ -1,7 +1,5 @@
 <template class>
-  <!-- <div class="dark:bg-slate-900"> -->
-  <div class="container mx-auto px-4 py-8">
-    <h1 class="mb-6 text-3xl font-bold text-red-600">Pokédex</h1>
+  <div class="container mx-auto mb-8 px-4">
     <!-- Jika showDetail bernilai false, tampilkan PokemonCard -->
     <div v-if="!showDetail">
       <div class="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
@@ -34,11 +32,11 @@
     />
     <!-- Button close ... -->
     <!-- Kode untuk menutup PokemonDetail saat diklik -->
-    <div class="fixed right-4 top-8 md:right-12 lg:right-24">
+    <div class="fixed right-4 top-24 md:right-12 lg:right-24">
       <button
         v-if="showDetail"
         @click="closePokemonDetail"
-        class="rounded-lg bg-red-500 px-3 py-1 text-white hover:bg-red-600"
+        class="rounded-bl-lg bg-red-500 px-3 py-1 text-white hover:bg-red-600"
       >
         Close
       </button>
@@ -46,7 +44,6 @@
     <div ref="scrollTrigger"></div>
     <!-- Tambahkan elemen ref untuk menandai area scroll trigger -->
   </div>
-  <!-- </div> -->
 </template>
 
 <script>
